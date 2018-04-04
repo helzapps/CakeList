@@ -17,7 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self getData];
+	[self performSelectorInBackground:@selector(getData) withObject:nil];
 }
 
 #pragma mark - Table View
@@ -62,8 +62,11 @@
                        error:&jsonError];
     if (!jsonError){
         self.objects = responseData;
-        [self.tableView reloadData];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self.tableView reloadData];
+		});
     } else {
+		
     }
     
 }
