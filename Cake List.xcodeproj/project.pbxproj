@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A121B9692074B78C003DBB61 /* CakeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A121B9682074B78C003DBB61 /* CakeInfo.m */; };
+		A121B96C2075A245003DBB61 /* CakeDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A121B96B2075A245003DBB61 /* CakeDataManager.swift */; };
+		A121B9702075B7E7003DBB61 /* CakeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A121B96F2075B7E7003DBB61 /* CakeInfo.swift */; };
 		DBF17A171B0B648F004E6311 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF17A161B0B648F004E6311 /* main.m */; };
 		DBF17A1A1B0B648F004E6311 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF17A191B0B648F004E6311 /* AppDelegate.m */; };
 		DBF17A1D1B0B648F004E6311 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF17A1C1B0B648F004E6311 /* MasterViewController.m */; };
@@ -29,8 +30,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A121B9672074B78C003DBB61 /* CakeInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CakeInfo.h; sourceTree = "<group>"; };
-		A121B9682074B78C003DBB61 /* CakeInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CakeInfo.m; sourceTree = "<group>"; };
+		A121B96A2075A245003DBB61 /* Cake List-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Cake List-Bridging-Header.h"; sourceTree = "<group>"; };
+		A121B96B2075A245003DBB61 /* CakeDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CakeDataManager.swift; sourceTree = "<group>"; };
+		A121B96F2075B7E7003DBB61 /* CakeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CakeInfo.swift; sourceTree = "<group>"; };
 		DBF17A111B0B648F004E6311 /* Cake List.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cake List.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBF17A151B0B648F004E6311 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DBF17A161B0B648F004E6311 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -95,8 +97,9 @@
 				DBF17A241B0B648F004E6311 /* Images.xcassets */,
 				DBF17A261B0B648F004E6311 /* LaunchScreen.xib */,
 				DBF17A141B0B648F004E6311 /* Supporting Files */,
-				A121B9672074B78C003DBB61 /* CakeInfo.h */,
-				A121B9682074B78C003DBB61 /* CakeInfo.m */,
+				A121B96B2075A245003DBB61 /* CakeDataManager.swift */,
+				A121B96F2075B7E7003DBB61 /* CakeInfo.swift */,
+				A121B96A2075A245003DBB61 /* Cake List-Bridging-Header.h */,
 			);
 			path = "Cake List";
 			sourceTree = "<group>";
@@ -195,6 +198,7 @@
 					DBF17A101B0B648F004E6311 = {
 						CreatedOnToolsVersion = 6.3;
 						DevelopmentTeam = Q224UR2KLZ;
+						LastSwiftMigration = 0930;
 					};
 					DBF17A2C1B0B648F004E6311 = {
 						CreatedOnToolsVersion = 6.3;
@@ -248,9 +252,10 @@
 			files = (
 				DBF17A1A1B0B648F004E6311 /* AppDelegate.m in Sources */,
 				DBF17A3F1B0B8E16004E6311 /* CakeCell.m in Sources */,
-				A121B9692074B78C003DBB61 /* CakeInfo.m in Sources */,
 				DBF17A1D1B0B648F004E6311 /* MasterViewController.m in Sources */,
 				DBF17A171B0B648F004E6311 /* main.m in Sources */,
+				A121B96C2075A245003DBB61 /* CakeDataManager.swift in Sources */,
+				A121B9702075B7E7003DBB61 /* CakeInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,11 +381,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = Q224UR2KLZ;
 				INFOPLIST_FILE = "Cake List/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.waracle.Cake-List-helzer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Cake List/Cake List-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -388,17 +397,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = Q224UR2KLZ;
 				INFOPLIST_FILE = "Cake List/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.waracle.Cake-List-helzer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Cake List/Cake List-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 		DBF17A3B1B0B648F004E6311 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -418,6 +431,7 @@
 		DBF17A3C1B0B648F004E6311 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
