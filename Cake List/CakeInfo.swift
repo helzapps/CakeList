@@ -13,3 +13,11 @@ class CakeInfo: NSObject, Codable {
 	var title: String = ""
 	var image: String = ""
 }
+
+extension CakeInfo {
+	var actualImage: UIImage? {
+		get {
+			return ImageCache.getImage(at: image)
+		}
+	}
+}
