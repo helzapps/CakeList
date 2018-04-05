@@ -10,4 +10,10 @@
 
 @interface CakeInfo : NSObject
 
+@property (nonatomic) NSString *desc;
+@property (nonatomic) NSString *title;
+@property (nonatomic) NSString *imageURLString;
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
 @end

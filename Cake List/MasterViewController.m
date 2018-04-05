@@ -8,9 +8,10 @@
 
 #import "MasterViewController.h"
 #import "CakeCell.h"
+#import "CakeInfo.h"
 
 @interface MasterViewController ()
-@property (strong, nonatomic) NSArray *objects;
+@property (strong, nonatomic) NSArray <CakeInfo *> *cakeInfoObjects;
 @end
 
 @implementation MasterViewController
@@ -26,22 +27,22 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.objects.count;
+    return self.cakeInfoObjects.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     CakeCell *cell = (CakeCell*)[tableView dequeueReusableCellWithIdentifier:@"CakeCell"];
+	
+	CakeInfo *cakeInfo = self.cakeInfoObjects[indexPath.row];
+	cell.titleLabel.text = cakeInfo.title;
+	cell.descriptionLabel.text = cakeInfo.desc;
+
     
-    NSDictionary *object = self.objects[indexPath.row];
-    cell.titleLabel.text = object[@"title"];
-    cell.descriptionLabel.text = object[@"desc"];
- 
-    
-    NSURL *aURL = [NSURL URLWithString:object[@"image"]];
-    NSData *data = [NSData dataWithContentsOfURL:aURL];
-    UIImage *image = [UIImage imageWithData:data];
-    [cell.cakeImageView setImage:image];
-    
+//    NSURL *aURL = [NSURL URLWithString:object[@"image"]];
+//    NSData *data = [NSData dataWithContentsOfURL:aURL];
+//    UIImage *image = [UIImage imageWithData:data];
+//    [cell.cakeImageView setImage:image];
+	
     return cell;
 }
 
@@ -61,10 +62,20 @@
                        options:kNilOptions
                        error:&jsonError];
     if (!jsonError){
-        self.objects = responseData;
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self.tableView reloadData];
-		});
+		if ([responseData isKindOfClass:[NSArray class]]) {
+			NSArray *responseObjects = (NSArray *)responseData;
+			NSMutableArray *tempCakeInfo = [NSMutableArray<CakeInfo *> arrayWithCapacity:responseObjects.count];
+			for (id object in responseObjects) {
+				if ([object isKindOfClass:[NSDictionary class]]) {
+					NSDictionary *cakeDictionary = (NSDictionary *)object;
+					[tempCakeInfo addObject:[[CakeInfo alloc] initWithDictionary:cakeDictionary]];
+				}
+			}
+			self.cakeInfoObjects = [NSArray <CakeInfo *> arrayWithArray:tempCakeInfo];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[self.tableView reloadData];
+			});
+		}
     } else {
 		
     }
