@@ -10,5 +10,17 @@
 
 @implementation CakeCell
 
+- (void)prepareForReuse {
+	[super prepareForReuse];
+	[self setCakeImage:nil];
+}
+
+- (void)setCakeImage:(UIImage *)image {
+	self.cakeImageView.backgroundColor = [UIColor clearColor];
+	if (!image) {
+		self.cakeImageView.backgroundColor = [UIColor lightGrayColor];
+	}
+	self.cakeImageView.image = image;
+}
 
 @end

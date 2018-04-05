@@ -12,4 +12,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *cakeImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+
+- (void)setCakeImage:(UIImage *)image;
+
 @end
