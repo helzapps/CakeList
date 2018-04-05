@@ -10,14 +10,15 @@
 #import "CakeCell.h"
 #import "Cake_List-Swift.h"
 
-@interface MasterViewController ()
-//@property (strong, nonatomic) NSArray <CakeInfo *> *cakeInfoObjects;
+@interface MasterViewController () <UIScrollViewDelegate>
+@property (nonatomic, strong) NSMutableDictionary *imageDownloadsInProgress;
 @end
 
 @implementation MasterViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	_imageDownloadsInProgress = [NSMutableDictionary dictionary];
 	[CakeDataManager refresh:^{
 		[self.tableView reloadData];
 	}];
@@ -40,18 +41,54 @@
 	CakeInfo *cakeInfo = [[[CakeDataManager shared] cakes] objectAtIndex:indexPath.row];
 	cell.titleLabel.text = cakeInfo.title;
 	cell.descriptionLabel.text = cakeInfo.desc;
-
-    
-//    NSURL *aURL = [NSURL URLWithString:object[@"image"]];
-//    NSData *data = [NSData dataWithContentsOfURL:aURL];
-//    UIImage *image = [UIImage imageWithData:data];
-//    [cell.cakeImageView setImage:image];
+	if (cakeInfo.actualImage == nil && self.tableView.isDragging == NO && self.tableView.decelerating == false) {
+		[self startIconDownload:cakeInfo forIndexPath:indexPath];
+	} else {
+		[cell setCakeImage:cakeInfo.actualImage];
+	}
 	
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)startIconDownload:(CakeInfo *)cakeInfo forIndexPath:(NSIndexPath *)indexPath {
+	CakeInfo *requestedCakeInfo = (self.imageDownloadsInProgress)[indexPath];
+	if (requestedCakeInfo == nil) {
+		[ImageCache getImageAt:[NSURL URLWithString:[cakeInfo image]] completionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
+			CakeCell *cell = (CakeCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+			[cell setCakeImage:cakeInfo.actualImage];
+			[self.imageDownloadsInProgress removeObjectForKey:indexPath];
+		}];
+		(self.imageDownloadsInProgress)[indexPath] = cakeInfo;
+	}
+}
+
+- (void)loadImagesForOnscreenRows {
+	if ([[CakeDataManager shared] cakes] > 0) {
+		NSArray *visiblePaths = [self.tableView indexPathsForVisibleRows];
+		for (NSIndexPath *indexPath in visiblePaths) {
+			CakeInfo *cakeInfo = [[[CakeDataManager shared] cakes] objectAtIndex:indexPath.row];
+			
+			if (!cakeInfo.actualImage) {
+				[self startIconDownload:cakeInfo forIndexPath:indexPath];
+			}
+		}
+	}
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+	if (!decelerate) {
+		[self loadImagesForOnscreenRows];
+	}
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+	[self loadImagesForOnscreenRows];
 }
 
 @end
