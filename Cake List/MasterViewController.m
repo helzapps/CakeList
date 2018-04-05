@@ -9,6 +9,7 @@
 #import "MasterViewController.h"
 #import "CakeCell.h"
 #import "Cake_List-Swift.h"
+#import "UIView+Extension.h"
 
 @interface MasterViewController () <UIScrollViewDelegate>
 @property (nonatomic, strong) NSMutableDictionary *imageDownloadsInProgress;
@@ -52,6 +53,25 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+	CakeInfo *cakeInfo = [[[CakeDataManager shared] cakes] objectAtIndex:indexPath.row];
+	CakeDetailViewController *detailVC = (CakeDetailViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"cake detail"];
+	detailVC.view.translatesAutoresizingMaskIntoConstraints = NO;
+	[self.navigationController addChildViewController:detailVC];
+	[self.navigationController.view addSubview:detailVC.view];
+	[detailVC.view constrainToSuperView];
+	detailVC.cakeInfo = cakeInfo;
+	detailVC.view.frame = ({
+		CGRect newFrame = detailVC.view.frame;
+		newFrame.origin.y = self.view.frame.size.height;
+		newFrame;
+	});
+	[UIView animateWithDuration:0.25 animations:^{
+		detailVC.view.frame = ({
+			CGRect newFrame = detailVC.view.frame;
+			newFrame.origin.y = 0;
+			newFrame;
+		});
+	}];
 }
 
 - (void)startIconDownload:(CakeInfo *)cakeInfo forIndexPath:(NSIndexPath *)indexPath {
